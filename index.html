@@ -553,114 +553,152 @@
         </div>
     </div>
 
-    <script>
-        const rejectBtn = document.getElementById('rejectBtn');
-        const btnArea = document.getElementById('btnArea');
-        const lilySvg = '<svg class="violet-lily" viewBox="0 0 100 100"><use href="#violet-lily-icon"/></svg>';
-        const messages = [
-            "Are you sure? 😢",
-            "Please don't click me! 🥺",
-            "Think again! " + lilySvg,
-            "Oops, missed me! 😋",
-            "Give me a chance! 😭",
-            "No isn't an option! 🌷"
-        ];
+       <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const rejectBtn = document.getElementById('rejectBtn');
+            const acceptBtn = document.getElementById('acceptBtn');
+            const closeBtn = document.querySelector('.close-popup-btn');
+            const prevSlideBtn = document.querySelector('.slide-nav-btn:first-of-type');
+            const nextSlideBtn = document.querySelector('.slide-nav-btn:last-of-type');
+            const btnArea = document.getElementById('btnArea');
+            const swipeArea = document.getElementById('swipeArea');
 
-        const mySlides = [
-            { src: "my-pic1.jpg", caption: "Miss mo na agad handsome lakay mo? 😋😘" },
-            { src: "my-pic2.jpg", caption: "Caught you peeking again! 👀💜" },
-            { src: "my-pic3.jpg", caption: "Bonus pogi pics unlocked just for my baby! 😎💋" },
-            { src: "my-pic4.jpg", caption: "Sending virtual hugs and 1,000 kisses! 😘🌷" }
-        ];
+            const lilySvg = '<svg class="violet-lily" viewBox="0 0 100 100"><use href="#violet-lily-icon"/></svg>';
+            const messages = [
+                "Are you sure? 😢",
+                "Please don't click me! 🥺",
+                "Think again! " + lilySvg,
+                "Oops, missed me! 😋",
+                "Give me a chance! 😭",
+                "No isn't an option! 🌷"
+            ];
 
-        let openCount = 0;
-        let currentSlide = 0;
-        let touchStartX = 0;
+            const mySlides = [
+                { src: "my-pic1.jpg", caption: "Miss mo na agad handsome lakay mo? 😋😘" },
+                { src: "my-pic2.jpg", caption: "Caught you peeking again! 👀💜" },
+                { src: "my-pic3.jpg", caption: "Bonus pogi pics unlocked just for my baby! 😎💋" },
+                { src: "my-pic4.jpg", caption: "Sending virtual hugs and 1,000 kisses! 😘🌷" }
+            ];
 
-        function renderSlide(index) {
-            currentSlide = (index + mySlides.length) % mySlides.length;
-            const slideImg = document.getElementById('mySlideImg');
-            slideImg.src = mySlides[currentSlide].src;
-            document.getElementById('playfulText').innerText = mySlides[currentSlide].caption;
+            let openCount = 0;
+            let currentSlide = 0;
+            let touchStartX = 0;
 
-            const dotsContainer = document.getElementById('slideDots');
-            dotsContainer.innerHTML = '';
-            mySlides.forEach((_, idx) => {
-                const dot = document.createElement('span');
-                dot.className = 'slide-dot' + (idx === currentSlide ? ' active' : '');
-                dot.onclick = () => renderSlide(idx);
-                dotsContainer.appendChild(dot);
-            });
-        }
+            function renderSlide(index) {
+                currentSlide = (index + mySlides.length) % mySlides.length;
+                const slideImg = document.getElementById('mySlideImg');
+                slideImg.src = mySlides[currentSlide].src;
+                document.getElementById('playfulText').innerText = mySlides[currentSlide].caption;
 
-        function changeSlide(step) {
-            renderSlide(currentSlide + step);
-        }
-
-        const swipeArea = document.getElementById('swipeArea');
-        swipeArea.addEventListener('touchstart', function(e) {
-            touchStartX = e.changedTouches.screenX;
-        }, { passive: true });
-
-        swipeArea.addEventListener('touchend', function(e) {
-            const touchEndX = e.changedTouches.screenX;
-            if (touchStartX - touchEndX > 40) changeSlide(1);
-            if (touchEndX - touchStartX > 40) changeSlide(-1);
-        }, { passive: true });
-
-        function dodgeButton() {
-            rejectBtn.style.position = 'absolute';
-
-            const padding = 8;
-            const maxX = Math.max(padding, btnArea.clientWidth - rejectBtn.offsetWidth - padding);
-            const maxY = Math.max(60, btnArea.clientHeight - rejectBtn.offsetHeight - padding);
-
-            const randomX = Math.floor(Math.random() * (maxX - padding + 1)) + padding;
-            const randomY = Math.floor(Math.random() * (maxY - 58 + 1)) + 58;
-
-            rejectBtn.style.left = randomX + 'px';
-            rejectBtn.style.top = randomY + 'px';
-
-            const randomText = messages[Math.floor(Math.random() * messages.length)];
-            rejectBtn.innerHTML = randomText;
-        }
-
-        rejectBtn.addEventListener('mouseover', dodgeButton);
-        rejectBtn.addEventListener('touchstart', function(e) {
-            e.preventDefault();
-            dodgeButton();
-        });
-        rejectBtn.addEventListener('click', dodgeButton);
-
-        function acceptApology() {
-            openCount++;
-            document.getElementById('popupOverlay').style.display = 'flex';
-            document.getElementById('apologyQuestion').style.display = 'none';
-            rejectBtn.style.display = 'none';
-btnArea.style.height = 'auto';
-document.getElementById('acceptBtn').innerText = "Read My Surprise Note 💌";
-if (openCount >= 2) {
-document.getElementById('reopenPhotoBox').style.display = 'block';
-document.getElementById('popupTitle').innerText = "Hehe, You Re-Opened It! 🥰💜";
-renderSlide(openCount - 2);
-}
-const items = [lilySvg, '💜', '🌷', '😘', '💋', '🥰', lilySvg];
-for (let i = 0; i < 45; i++) {
-setTimeout(() => {
-const item = document.createElement('div');
-item.classList.add('falling-item');
-item.innerHTML = items[Math.floor(Math.random() * items.length)];
-item.style.left = Math.random() * 100 + 'vw';
-item.style.animationDuration = (Math.random() * 2 + 2.5) + 's';
-document.body.appendChild(item);
-                    setTimeout(() => item.remove(), 5000);
-                }, i * 80);
+                const dotsContainer = document.getElementById('slideDots');
+                dotsContainer.innerHTML = '';
+                mySlides.forEach(function (_, idx) {
+                    const dot = document.createElement('span');
+                    dot.className = 'slide-dot' + (idx === currentSlide ? ' active' : '');
+                    dot.addEventListener('click', function () {
+                        renderSlide(idx);
+                    });
+                    dotsContainer.appendChild(dot);
+                });
             }
-        }
 
-        function closePopup() {
-            document.getElementById('popupOverlay').style.display = 'none';
-        }
+            function changeSlide(step) {
+                renderSlide(currentSlide + step);
+            }
+
+            if (prevSlideBtn) {
+                prevSlideBtn.addEventListener('click', function () {
+                    changeSlide(-1);
+                });
+            }
+
+            if (nextSlideBtn) {
+                nextSlideBtn.addEventListener('click', function () {
+                    changeSlide(1);
+                });
+            }
+
+            if (swipeArea) {
+                swipeArea.addEventListener('touchstart', function (e) {
+                    touchStartX = e.changedTouches[0].clientX;
+                }, { passive: true });
+
+                swipeArea.addEventListener('touchend', function (e) {
+                    const touchEndX = e.changedTouches[0].clientX;
+                    if (touchStartX - touchEndX > 35) changeSlide(1);
+                    if (touchEndX - touchStartX > 35) changeSlide(-1);
+                }, { passive: true });
+            }
+
+            function dodgeButton(e) {
+                if (e && e.cancelable) {
+                    e.preventDefault();
+                }
+                rejectBtn.style.position = 'absolute';
+
+                const padding = 8;
+                const areaW = btnArea.clientWidth || 300;
+                const areaH = btnArea.clientHeight || 175;
+                const btnW = rejectBtn.offsetWidth || 100;
+                const btnH = rejectBtn.offsetHeight || 44;
+
+                const maxX = Math.max(padding, areaW - btnW - padding);
+                const minY = 58;
+                const maxY = Math.max(minY, areaH - btnH - padding);
+
+                const randomX = Math.floor(Math.random() * (maxX - padding + 1)) + padding;
+                const randomY = Math.floor(Math.random() * (maxY - minY + 1)) + minY;
+
+                rejectBtn.style.left = randomX + 'px';
+                rejectBtn.style.top = randomY + 'px';
+
+                const randomText = messages[Math.floor(Math.random() * messages.length)];
+                rejectBtn.innerHTML = randomText;
+            }
+
+            rejectBtn.addEventListener('mouseover', dodgeButton);
+            rejectBtn.addEventListener('touchstart', dodgeButton, { passive: false });
+            rejectBtn.addEventListener('click', dodgeButton);
+
+            function acceptApology() {
+                openCount++;
+                document.getElementById('popupOverlay').style.display = 'flex';
+                document.getElementById('apologyQuestion').style.display = 'none';
+                rejectBtn.style.display = 'none';
+                btnArea.style.height = 'auto';
+                acceptBtn.innerText = "Read My Surprise Note 💌";
+
+                if (openCount >= 2) {
+                    document.getElementById('reopenPhotoBox').style.display = 'block';
+                    document.getElementById('popupTitle').innerText = "Hehe, You Re-Opened It! 🥰💜";
+                    renderSlide(openCount - 2);
+                }
+
+                const items = [lilySvg, '💜', '🌷', '😘', '💋', '🥰', lilySvg];
+                for (let i = 0; i < 45; i++) {
+                    setTimeout(function () {
+                        const item = document.createElement('div');
+                        item.classList.add('falling-item');
+                        item.innerHTML = items[Math.floor(Math.random() * items.length)];
+                        item.style.left = Math.random() * 100 + 'vw';
+                        item.style.animationDuration = (Math.random() * 2 + 2.5) + 's';
+                        document.body.appendChild(item);
+
+                        setTimeout(function () {
+                            item.remove();
+                        }, 5000);
+                    }, i * 80);
+                }
+            }
+
+            acceptBtn.addEventListener('click', acceptApology);
+
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function () {
+                    document.getElementById('popupOverlay').style.display = 'none';
+                });
+            }
+        });
     </script>
 </body>
 </html>
