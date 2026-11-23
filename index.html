@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I'm So Sorry 💜</title>
+    <link href="https://googleapis.com" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #f3e7fa 0%, #e1bee7 50%, #ce93d8 100%);
+            --card-bg: rgba(255, 255, 255, 0.92);
+            --primary-violet: #6a1b9a;
+            --accent-violet: #9c27b0;
+            --soft-lavender: #f8bbd0;
+            --text-dark: #3b1c4a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Floating Violet Lilies Background */
+        .lily-bg {
+            position: fixed;
+            font-size: 2rem;
+            opacity: 0.25;
+            user-select: none;
+            pointer-events: none;
+            animation: float 8s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        /* Main Container Card */
+        .container {
+            background: var(--card-bg);
+            max-width: 650px;
+            width: 100%;
+            border-radius: 25px;
+            padding: 35px 25px;
+            box-shadow: 0 15px 35px rgba(106, 27, 154, 0.2);
+            border: 2px solid #e1bee7;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-lilies {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            letter-spacing: 5px;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.8rem;
+            color: var(--primary-violet);
+            margin-bottom: 15px;
+        }
+
+        /* Photo Gallery Section */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .photo-frame {
+            background: #fff;
+            padding: 8px 8px 22px 8px;
+            border-radius: 10px;
+            box-shadow: 0 6px 15px rgba(106, 27, 154, 0.15);
+            border: 1px solid #f3e5f5;
+            transition: transform 0.3s ease;
+        }
+
+        .photo-frame:nth-child(odd) { transform: rotate(-2deg); }
+        .photo-frame:nth-child(even) { transform: rotate(2deg); }
+        .photo-frame:hover { transform: scale(1.05) rotate(0deg); }
+
+        .photo-frame img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 6px;
+            display: block;
+        }
+
+        .photo-caption {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.1rem;
+            color: var(--primary-violet);
+            margin-top: 6px;
+        }
+
+        /* Letter Section */
+        .letter-box {
+            background: #faf4fc;
+            border-left: 4px solid var(--accent-violet);
+            border-right: 4px solid var(--accent-violet);
+            border-radius: 15px;
+            padding: 25px 20px;
+            margin: 25px 0;
+            text-align: left;
+            line-height: 1.7;
+            font-size: 0.95rem;
+            box-shadow: inset 0 2px 8px rgba(156, 39, 176, 0.08);
+            position: relative;
+        }
+
+        .letter-box p {
+            margin-bottom: 12px;
+        }
+
+        .letter-sign {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.6rem;
+            color: var(--primary-violet);
+            text-align: right;
+            margin-top: 15px;
+        }
+
+        /* Question & Interactive Buttons */
+        .question {
+            font-weight: 600;
+            font-size: 1.15rem;
+            color: var(--primary-violet);
+            margin-bottom: 20px;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            min-height: 60px;
+            position: relative;
+        }
+
+        button {
+            padding: 12px 28px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        #acceptBtn {
+            background: linear-gradient(45deg, #7b1fa2, #ab47bc);
+            color: white;
+            box-shadow: 0 6px 20px rgba(123, 31, 162, 0.35);
+            z-index: 2;
+        }
+
+        #acceptBtn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 8px 25px rgba(123, 31, 162, 0.5);
+        }
+
+        #rejectBtn {
+            background: #e0e0e0;
+            color: #555;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 3;
+            transition: all 0.25s ease-out;
+        }
+
+        /* Acceptance Celebration Message */
+        #celebration {
+            display: none;
+            margin-top: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f3e5f5, #fce4ec);
+            border-radius: 15px;
+            border: 2px dashed var(--accent-violet);
+            animation: popIn 0.5s ease forwards;
+        }
+
+        #celebration h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.2rem;
+            color: var(--primary-violet);
+            margin-bottom: 8px;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Falling Petals/Hearts on Accept */
+        .falling-item {
+            position: fixed;
+            top: -50px;
+            font-size: 1.8rem;
+            pointer-events: none;
+            z-index: 999;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(110vh) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Decorative Floating Lilies -->
+    <div class="lily-bg" style="top: 8%; left: 10%;">🪻</div>
+    <div class="lily-bg" style="top: 20%; right: 12%; animation-delay: 2s;">💜</div>
+    <div class="lily-bg" style="bottom: 15%; left: 15%; animation-delay: 4s;">🪻</div>
+    <div class="lily-bg" style="bottom: 10%; right: 10%; animation-delay: 1s;">🌷</div>
+
+    <div class="container">
+        <div class="header-lilies">🪻 💜 🪻</div>
+        <h1>Please Accept My Apology...</h1>
+        <p>I made this little space just for you, surrounded by violet lilies.</p>
+
+        <!-- PHOTO GALLERY: Replace the src="photo1.jpg" with your actual uploaded file names -->
+        <div class="gallery">
+            <div class="photo-frame">
+                <img src="photo1.jpg" alt="Her Photo 1" onerror="this.src='https://unsplash.com'">
+                <div class="photo-caption">My favorite smile 💜</div>
+            </div>
+            <div class="photo-frame">
+                <img src="photo2.jpg" alt="Her Photo 2" onerror="this.src='https://unsplash.com'">
+                <div class="photo-caption">Always on my mind 🪻</div>
+            </div>
+            <div class="photo-frame">
+                <img src="photo3.jpg" alt="Her Photo 3" onerror="this.src='https://unsplash.com'">
+                <div class="photo-caption">My everything ✨</div>
+            </div>
+        </div>
+
+        <!-- APOLOGY LETTER -->
+        <div class="letter-box">
+            <p><strong>My Dearest,</strong></p>
+            <p>
+                I am truly sorry from the bottom of my heart. Looking at your photos reminds me how lucky I am to have you in my life, and it hurts knowing I caused you upset or disappointment.
+            </p>
+            <p>
+                You mean the world to me, and I never want to take your patience, kindness, or love for granted. Like violet lilies, you bring grace, beauty, and peace into my days—and I promise to do better and cherish you the way you deserve.
+            </p>
+            <p>
+                Please forgive me? 🥺💜
+            </p>
+            <div class="letter-sign">Forever yours,</div>
+        </div>
+
+        <!-- INTERACTIVE BUTTONS -->
+        <div class="question">Do you accept my apology?</div>
+        <div class="btn-group">
+            <button id="acceptBtn" onclick="acceptApology()">Yes, I forgive you 💜</button>
+            <button id="rejectBtn">No 😢</button>
+        </div>
+
+        <!-- HIDDEN CELEBRATION MESSAGE -->
+        <div id="celebration">
+            <h2>I am sorry, I love youuuu my dear! 🥰🌷🪻</h2>
+            <p>Thank you for forgiving me! I promise to make you smile every single day. 💜✨</p>
+        </div>
+    </div>
+
+    <script>
+        const rejectBtn = document.getElementById('rejectBtn');
+        const messages = [
+            "Are you sure? 🥺",
+            "Please don't click me! 💜",
+            "Think again! 🪻",
+            "Oops, missed me! 😋",
+            "Give me a chance! 🙏",
+            "No isn't an option! 💕"
+        ];
+
+        function dodgeButton() {
+// Switch to fixed positioning so it can move anywhere on the screen safely
+rejectBtn.style.position = 'fixed';
+// Calculate safe boundaries inside the viewport
+const padding = 20;
+const maxX = window.innerWidth - rejectBtn.offsetWidth - padding;
+const maxY = window.innerHeight - rejectBtn.offsetHeight - padding;
+const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
+const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+rejectBtn.style.left = randomX + 'px';
+rejectBtn.style.top = randomY + 'px';
+// Change button text playfully
+const randomText = messages[Math.floor(Math.random() * messages.length)];
+rejectBtn.innerText = randomText;
+}
+// Works on desktop hover
+rejectBtn.addEventListener('mouseover', dodgeButton);
+// Works on mobile touch/tap before click registers
+rejectBtn.addEventListener('touchstart', function(e) {
+e.preventDefault();
+dodgeButton();
+});
+rejectBtn.addEventListener('click', dodgeButton);
+// Celebration when "Yes" is clicked
+function acceptApology() {
+document.getElementById('celebration').style.display = 'block';
+rejectBtn.style.display = 'none';
+document.getElementById('acceptBtn').innerText = "Yay! Love you! 💜";
+// Drop violet lilies, tulips, and hearts
+const emojis = ['🪻', '💜', '🌷', '🥰', '✨', '🌸'];
+for (let i = 0; i < 45; i++) {
+setTimeout(() => {
+const item = document.createElement('div');
+item.classList.add('falling-item');
+item.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+item.style.left = Math.random() * 100 + 'vw';
+item.style.animationDuration = (Math.random() * 2 + 2.5) + 's';
+document.body.appendChild(item);
+setTimeout(() => item.remove(), 5000);
+}, i * 80);
+}
+}
