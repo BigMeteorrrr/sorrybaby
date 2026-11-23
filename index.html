@@ -653,14 +653,14 @@ item.innerHTML = items[Math.floor(Math.random() * items.length)];
 item.style.left = Math.random() * 100 + 'vw';
 item.style.animationDuration = (Math.random() * 2 + 2.5) + 's';
 document.body.appendChild(item);
-setTimeout(() => item.remove(), 5000);
-}, i * 80);
-}
- 
-    
-         
-          
-  
-</script>
+                    setTimeout(() => item.remove(), 5000);
+                }, i * 80);
+            }
+        }
+
+        function closePopup() {
+            document.getElementById('popupOverlay').style.display = 'none';
+        }
+    </script>
 </body>
 </html>
