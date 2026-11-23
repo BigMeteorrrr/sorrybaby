@@ -541,7 +541,7 @@
                 <div class="playful-caption" id="playfulText"></div>
             </div>
 
-            <div class="popup-message">
+                 <div class="popup-message" id="popupMessageBox">
                 <p>You just made me the happiest person in the world! 🥰💋</p>
                 <p>
                     I promise to always listen, understand you better, and fill your days with the same warmth and beauty as violet lilies and tulips. 🌷<svg class="violet-lily" viewBox="0 0 100 100"><use href="#violet-lily-icon"/></svg>
@@ -579,6 +579,15 @@
                 { src: "my-pic3.jpg", caption: "Bonus pogi pics unlocked just for my baby! 😎💋" },
                 { src: "my-pic4.jpg", caption: "Sending virtual hugs and 1,000 kisses! 😘🌷" }
             ];
+
+            const surpriseNotes = [
+                "<p>You just made me the happiest person in the world! 🥰💋</p><p>I promise to always listen, understand you better, and fill your days with the same warmth and beauty as violet lilies and tulips. 🌷" + lilySvg + "</p><p><strong>I love you so much! 😘💜</strong></p>",
+                "<p>Secret Note #1: Even on my busiest days, you are always my favorite thought. 🥰💜</p><p>Thank you for being my peace, my best friend, and my safe place.</p><p><strong>I love you endlessly, baby! 😘🌷</strong></p>",
+                "<p>Secret Note #2: If I could give you one thing in life, I would give you the ability to see yourself through my eyes. 👀✨</p><p>Then you would realize how truly special and irreplaceable you are to me.</p><p><strong>Forever yours! 💋💜</strong></p>",
+                "<p>Secret Note #3: Official Date Coupon Unlocked! 🎟️🌷</p><p>Show me a screenshot of this note to claim your favorite food, unlimited hugs, and a date all planned by me!</p><p><strong>Umwahhhhh! 😘🥰</strong></p>",
+                "<p>Secret Note #4: No matter what happens, I will always choose you—today, tomorrow, and every day after. 💜" + lilySvg + "</p><p>Keep smiling that pretty smile for me, okay? 😊</p><p><strong>Mahal na mahal kita! 💋</strong></p>"
+            ];
+
 
             let openCount = 0;
             let currentSlide = 0;
@@ -668,10 +677,17 @@
                 btnArea.style.height = 'auto';
                 acceptBtn.innerText = "Read My Surprise Note 💌";
 
-                if (openCount >= 2) {
+                const messageBox = document.getElementById('popupMessageBox');
+
+                if (openCount === 1) {
+                    messageBox.innerHTML = surpriseNotes[0];
+                } else {
                     document.getElementById('reopenPhotoBox').style.display = 'block';
                     document.getElementById('popupTitle').innerText = "Hehe, You Re-Opened It! 🥰💜";
                     renderSlide(openCount - 2);
+
+                    const noteIndex = ((openCount - 2) % (surpriseNotes.length - 1)) + 1;
+                    messageBox.innerHTML = surpriseNotes[noteIndex];
                 }
 
                 const items = [lilySvg, '💜', '🌷', '😘', '💋', '🥰', lilySvg];
