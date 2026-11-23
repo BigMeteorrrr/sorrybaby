@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>I'm So Sorry 💜</title>
-    <link rel="stylesheet" href="https://bunny.net|poppins:300,400,600">
     <style>
         :root {
             --bg-gradient: linear-gradient(135deg, #f3e7fa 0%, #e1bee7 50%, #ce93d8 100%);
@@ -34,11 +33,49 @@
             position: relative;
         }
 
-        /* Floating Violet Lilies Background */
+        .violet-lily {
+            display: inline-block;
+            width: 1.25em;
+            height: 1.25em;
+            vertical-align: -0.22em;
+        }
+
+        .blush-emoji {
+            display: inline-block;
+            position: relative;
+            animation: shyWiggle 2.5s ease-in-out infinite;
+        }
+
+        .blush-emoji::before,
+        .blush-emoji::after {
+            content: "";
+            position: absolute;
+            top: 52%;
+            width: 10px;
+            height: 6px;
+            background: rgba(255, 64, 129, 0.65);
+            border-radius: 50%;
+            filter: blur(2px);
+            animation: cheekGlow 1.5s ease-in-out infinite alternate;
+        }
+
+        .blush-emoji::before { left: 14%; }
+        .blush-emoji::after { right: 14%; }
+
+        @keyframes cheekGlow {
+            0% { opacity: 0.35; transform: scale(0.9); }
+            100% { opacity: 0.95; transform: scale(1.2); }
+        }
+
+        @keyframes shyWiggle {
+            0%, 100% { transform: rotate(-4deg); }
+            50% { transform: rotate(4deg); }
+        }
+
         .lily-bg {
             position: fixed;
-            font-size: 2rem;
-            opacity: 0.25;
+            font-size: 3.2rem;
+            opacity: 0.35;
             user-select: none;
             pointer-events: none;
             animation: float 8s ease-in-out infinite;
@@ -47,10 +84,9 @@
 
         @keyframes float {
             0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(10deg); }
+            50% { transform: translateY(-20px) rotate(12deg); }
         }
 
-        /* Main Container Card */
         .container {
             background: var(--card-bg);
             max-width: 650px;
@@ -78,7 +114,6 @@
             margin-bottom: 15px;
         }
 
-        /* Photo Gallery Section */
         .gallery {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -113,8 +148,6 @@
             color: var(--primary-violet);
             margin-top: 6px;
         }
-
-        /* Letter Section */
         .letter-box {
             background: #faf4fc;
             border-left: 4px solid var(--accent-violet);
@@ -139,9 +172,9 @@
             color: var(--primary-violet);
             text-align: right;
             margin-top: 15px;
+            line-height: 1.3;
         }
 
-        /* Question & Interactive Buttons */
         .question {
             font-weight: 600;
             font-size: 1.15rem;
@@ -194,36 +227,96 @@
             transition: left 0.22s ease-out, top 0.22s ease-out;
         }
 
-        /* Acceptance Celebration Message */
-        #celebration {
+        #popupOverlay {
             display: none;
-            margin-top: 10px;
+            position: fixed;
+            inset: 0;
+            background: rgba(59, 28, 74, 0.72);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
             padding: 20px;
-            background: linear-gradient(135deg, #f3e5f5, #fce4ec);
-            border-radius: 15px;
-            border: 2px dashed var(--accent-violet);
-            animation: popIn 0.5s ease forwards;
+            animation: fadeIn 0.35s ease forwards;
         }
 
-        #celebration h2 {
+        .popup-page {
+            background: linear-gradient(145deg, #ffffff 0%, #f8eafc 100%);
+            max-width: 520px;
+            width: 100%;
+            border-radius: 28px;
+            padding: 38px 28px;
+            text-align: center;
+            border: 3px solid #ce93d8;
+            box-shadow: 0 20px 50px rgba(74, 20, 140, 0.45);
+            position: relative;
+            animation: popIn 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        .popup-top-icons {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+        }
+
+        .popup-page h2 {
             font-family: "Brush Script MT", "Snell Roundhand", "Apple Chancery", Georgia, cursive;
-            font-size: 2.3rem;
+            font-size: 2.6rem;
             color: var(--primary-violet);
-            margin-bottom: 8px;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .popup-message {
+            background: #fff;
+            border-radius: 18px;
+            padding: 20px;
+            margin: 18px 0;
+            border: 1.5px dashed #ba68c8;
+            font-size: 1rem;
+            line-height: 1.65;
+            color: var(--text-dark);
+        }
+
+        .popup-message p {
+            margin-bottom: 10px;
+        }
+
+        .popup-message p:last-child {
+            margin-bottom: 0;
+        }
+
+        .popup-sign {
+            font-family: "Brush Script MT", "Snell Roundhand", "Apple Chancery", Georgia, cursive;
+            font-size: 1.9rem;
+            color: var(--accent-violet);
+            margin-top: 12px;
+        }
+
+        .close-popup-btn {
+            margin-top: 18px;
+            background: linear-gradient(45deg, #8e24aa, #ba68c8);
+            color: #fff;
+            padding: 10px 24px;
+            font-size: 0.95rem;
+            box-shadow: 0 5px 15px rgba(142, 36, 170, 0.3);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         @keyframes popIn {
-            0% { transform: scale(0.8); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
+            0% { transform: scale(0.75) translateY(20px); opacity: 0; }
+            100% { transform: scale(1) translateY(0); opacity: 1; }
         }
 
-        /* Falling Petals/Hearts on Accept */
         .falling-item {
             position: fixed;
             top: -50px;
-            font-size: 1.8rem;
+            font-size: 1.9rem;
             pointer-events: none;
-            z-index: 999;
+            z-index: 1005;
             animation: fall linear forwards;
         }
 
@@ -236,36 +329,66 @@
 </head>
 <body>
 
-    <!-- Decorative Floating Lilies -->
-    <div class="lily-bg" style="top: 8%; left: 10%;">🪻</div>
-    <div class="lily-bg" style="top: 20%; right: 12%; animation-delay: 2s;">💜</div>
-    <div class="lily-bg" style="bottom: 15%; left: 15%; animation-delay: 4s;">🌺</div>
-    <div class="lily-bg" style="bottom: 10%; right: 10%; animation-delay: 1s;">🌷</div>
+    <svg style="display:none;" aria-hidden="true">
+        <defs>
+            <g id="violet-lily-icon" viewBox="0 0 100 100">
+                <path d="M50 50 C35 15, 65 15, 50 50" fill="#7b1fa2"/>
+                <path d="M50 50 C85 35, 85 65, 50 50" fill="#7b1fa2"/>
+                <path d="M50 50 C65 85, 35 85, 50 50" fill="#7b1fa2"/>
+                <path d="M50 50 C15 65, 15 35, 50 50" fill="#7b1fa2"/>
+                <path d="M50 50 C25 10, 45 5, 50 38 C55 5, 75 10, 50 50 Z" fill="#ab47bc"/>
+                <path d="M50 50 C90 25, 95 45, 62 50 C95 55, 90 75, 50 50 Z" fill="#ba68c8"/>
+                <path d="M50 50 C75 90, 55 95, 50 62 C45 95, 25 90, 50 50 Z" fill="#ab47bc"/>
+                <path d="M50 50 C10 75, 5 55, 38 50 C5 45, 10 25, 50 50 Z" fill="#ba68c8"/>
+                <path d="M50 50 C20 15, 35 12, 50 50 Z" fill="#8e24aa"/>
+                <path d="M50 50 C85 20, 88 35, 50 50 Z" fill="#8e24aa"/>
+                <path d="M50 50 C80 85, 65 88, 50 50 Z" fill="#8e24aa"/>
+                <path d="M50 50 C15 80, 12 65, 50 50 Z" fill="#8e24aa"/>
+                <circle cx="50" cy="50" r="8" fill="#f3e5f5"/>
+                <circle cx="50" cy="50" r="4.5" fill="#ffd54f"/>
+                <line x1="50" y1="50" x2="40" y2="36" stroke="#fff59d" stroke-width="2" stroke-linecap="round"/>
+                <line x1="50" y1="50" x2="60" y2="36" stroke="#fff59d" stroke-width="2" stroke-linecap="round"/>
+                <line x1="50" y1="50" x2="64" y2="54" stroke="#fff59d" stroke-width="2" stroke-linecap="round"/>
+                <line x1="50" y1="50" x2="36" y2="54" stroke="#fff59d" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="40" cy="36" r="2.2" fill="#ff8f00"/>
+                <circle cx="60" cy="36" r="2.2" fill="#ff8f00"/>
+                <circle cx="64" cy="54" r="2.2" fill="#ff8f00"/>
+                <circle cx="36" cy="54" r="2.2" fill="#ff8f00"/>
+            </g>
+        </defs>
+    </svg>
+
+    <div class="lily-bg" style="top: 8%; left: 10%;"><svg class="violet-lily" viewBox="0 0 100 100"><use href="#violet-lily-icon"/></svg></div>
+    <div class="lily-bg" style="top: 18%; right: 12%; animation-delay: 2s;">🌷</div>
+    <div class="lily-bg" style="bottom: 15%; left: 15%; animation-delay: 4s;"><svg class="violet-lily" viewBox="0 0 100 100"><use href="#violet-lily-icon"/></svg></div>
+    <div class="lily-bg" style="bottom: 10%; right: 10%; animation-delay: 1s;">💜</div>
 
     <div class="container">
-        <div class="header-lilies">🪻 💜 🪻</div>
+        <div class="header-lilies">
+            <svg class="violet-lily" viewBox="0 0 100 100"><use href="#violet-lily-icon"/></svg>
+            💜
+            <svg class="violet-lily" viewBox="0 0 100 100"><use href="#violet-lily-icon"/></svg>
+        </div>
         <h1>Please Accept My Apology...</h1>
-        <p>I made this little space just for you, surrounded by violet lilies.</p>
+        <p>I made this little space just for you, surrounded by violet lilies. <span class="blush-emoji">🥺</span></p>
 
-        <!-- PHOTO GALLERY -->
         <div class="gallery">
             <div class="photo-frame">
                 <img src="img1.jpg" alt="Her Photo 1">
-                <div class="photo-caption">You look so cute on this btw🥰 </div>
+                <div class="photo-caption">You look so cute on this btw😊💜</div>
             </div>
             <div class="photo-frame">
                 <img src="img2.jpg" alt="Her Photo 2">
-                <div class="photo-caption">Don't be sad 🥺it doesn't suit you</div>
+                <div class="photo-caption">Prettier than every violet lily <svg class="violet-lily" viewBox="0 0 100 100"><use href="#violet-lily-icon"/></svg></div>
             </div>
             <div class="photo-frame">
                 <img src="img3.jpg" alt="Her Photo 3">
-                <div class="photo-caption">umwaaaaahhhhhhhh😘 </div>
+                <div class="photo-caption">Umwahhhhhhh 😘</div>
             </div>
         </div>
 
-        <!-- APOLOGY LETTER -->
         <div class="letter-box">
-            <p><strong>My Dearest,</strong></p>
+            <p><strong>My Dear,</strong></p>
             <p>
                 I am truly sorry from the bottom of my heart. Looking at your photos reminds me how lucky I am to have you in my life, and it hurts knowing I caused you upset or disappointment.
             </p>
@@ -273,78 +396,100 @@
                 You mean the world to me, and I never want to take your patience, kindness, or love for granted. Like violet lilies, you bring grace, beauty, and peace into my days—and I promise to do better and cherish you the way you deserve.
             </p>
             <p>
-                Please forgive me? 🥺💜
+                Please forgive me? <span class="blush-emoji">🥺</span>💜
             </p>
-            <div class="letter-sign">Forever yours,</div>
+            <div class="letter-sign">Your lakay,<br>Dhaniel</div>
         </div>
 
-        <!-- INTERACTIVE BUTTONS -->
         <div class="question">Do you accept my apology?</div>
         <div class="btn-group" id="btnArea">
             <button id="acceptBtn" onclick="acceptApology()">Yes, I forgive you 💜</button>
             <button id="rejectBtn">No 😢</button>
         </div>
+    </div>
 
-        <!-- HIDDEN CELEBRATION MESSAGE -->
-        <div id="celebration">
-            <h2>I am sorry, I love youuuu my dear! 🥰🌷🪻</h2>
-            <p>Thank you for forgiving me! I promise to make you smile every single day. 💜✨</p>
+    <div id="popupOverlay">
+        <div class="popup-page">
+            <div class="popup-top-icons">
+                <svg class="violet-lily" viewBox="0 0 100 100"><use href="#violet-lily-icon"/></svg>
+                <span class="blush-emoji">😊</span>
+                😘🌷
+            </div>
+            <h2>Thank You for Forgiving Me, My Love! 💜</h2>
+            <div class="popup-message">
+                <p>You just made me the happiest person in the world! 🥰💋</p>
+                <p>
+                    I promise to always listen, understand you better, and fill your days with the same warmth and beauty as violet lilies and tulips. 🌷<svg class="violet-lily" viewBox="0 0 100 100"><use href="#violet-lily-icon"/></svg>
+                </p>
+                <p><strong>I love you so much! 😘💜</strong></p>
+            </div>
+            <div class="popup-sign">Always &amp; Forever,<br>Dhaniel 💋</div>
+            <button class="close-popup-btn" onclick="closePopup()">Back to Our Photos 💜</button>
         </div>
     </div>
 
     <script>
         const rejectBtn = document.getElementById('rejectBtn');
         const btnArea = document.getElementById('btnArea');
+        const lilySvg = '<svg class="violet-lily" viewBox="0 0 100 100"><use href="#violet-lily-icon"/></svg>';
         const messages = [
-            "Are you sure? 🥺",
-            "Please don't click me! 💜",
-            "Think again! 🪻",
+            "Are you sure? 😢",
+            "Please don't click me! 🥺",
+            "Think again! " + lilySvg,
             "Oops, missed me! 😋",
-            "Give me a chance! 🙏",
-            "No isn't an option! 💕"
+            "Give me a chance! 😭",
+            "No isn't an option! 🌷"
         ];
 
         function dodgeButton() {
-            // Keep button trapped inside the .btn-group box below the letter
             rejectBtn.style.position = 'absolute';
 
-const padding = 10;
-const maxX = btnArea.clientWidth - rejectBtn.offsetWidth - padding;
-const maxY = btnArea.clientHeight - rejectBtn.offsetHeight - padding;
-const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
-const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
-rejectBtn.style.left = randomX + 'px';
-rejectBtn.style.top = randomY + 'px';
-const randomText = messages[Math.floor(Math.random() * messages.length)];
-rejectBtn.innerText = randomText;
-}
-// Works on desktop hover
-rejectBtn.addEventListener('mouseover', dodgeButton);
-// Works on mobile touch/tap before click registers
-rejectBtn.addEventListener('touchstart', function(e) {
-e.preventDefault();
-dodgeButton();
-});
-rejectBtn.addEventListener('click', dodgeButton);
-// Celebration when "Yes" is clicked
-function acceptApology() {
-document.getElementById('celebration').style.display = 'block';
-rejectBtn.style.display = 'none';
-btnArea.style.height = 'auto';
-document.getElementById('acceptBtn').innerText = "Yay! Love you! 💜";
-const emojis = ['🪻', '💜', '🌷', '🥰', '✨', '🌸'];
-for (let i = 0; i < 45; i++) {
-setTimeout(() => {
-const item = document.createElement('div');
-item.classList.add('falling-item');
-item.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-item.style.left = Math.random() * 100 + 'vw';
-item.style.animationDuration = (Math.random() * 2 + 2.5) + 's';
-document.body.appendChild(item);
-setTimeout(() => item.remove(), 5000);
-}, i * 80);
-}
-}
-</script>
+            const padding = 10;
+            const maxX = btnArea.clientWidth - rejectBtn.offsetWidth - padding;
+            const maxY = btnArea.clientHeight - rejectBtn.offsetHeight - padding;
+
+            const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+
+            rejectBtn.style.left = randomX + 'px';
+            rejectBtn.style.top = randomY + 'px';
+
+            const randomText = messages[Math.floor(Math.random() * messages.length)];
+            rejectBtn.innerHTML = randomText;
+        }
+
+        rejectBtn.addEventListener('mouseover', dodgeButton);
+
+        rejectBtn.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            dodgeButton();
+        });
+        rejectBtn.addEventListener('click', dodgeButton);
+
+        function acceptApology() {
+            document.getElementById('popupOverlay').style.display = 'flex';
+            rejectBtn.style.display = 'none';
+            btnArea.style.height = 'auto';
+            document.getElementById('acceptBtn').innerText = "Read My Surprise Note 💌";
+
+            const items = [lilySvg, '💜', '🌷', '😘', '💋', '🥰', lilySvg];
+            for (let i = 0; i < 55; i++) {
+                setTimeout(() => {
+                    const item = document.createElement('div');
+                    item.classList.add('falling-item');
+                    item.innerHTML = items[Math.floor(Math.random() * items.length)];
+                    item.style.left = Math.random() * 100 + 'vw';
+                    item.style.animationDuration = (Math.random() * 2 + 2.5) + 's';
+                    document.body.appendChild(item);
+
+                    setTimeout(() => item.remove(), 5000);
+                }, i * 75);
+            }
+        }
+
+        function closePopup() {
+            document.getElementById('popupOverlay').style.display = 'none';
+        }
+    </script>
 </body>
 </html>
