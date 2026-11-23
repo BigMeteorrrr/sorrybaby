@@ -514,7 +514,7 @@
             <div class="letter-sign">Your lakay,<br>Dhaniel</div>
         </div>
 
-        <div class="question">Do you accept my apology?</div>
+        <div class="question" id="apologyQuestion">Do you accept my apology?</div>
         <div class="btn-group" id="btnArea">
             <button id="acceptBtn" onclick="acceptApology()">Yes, I forgive you 💜</button>
             <button id="rejectBtn">No 😢</button>
@@ -635,10 +635,10 @@
         function acceptApology() {
             openCount++;
             document.getElementById('popupOverlay').style.display = 'flex';
+            document.getElementById('apologyQuestion').style.display = 'none';
             rejectBtn.style.display = 'none';
-            btnArea.style.height = 'auto';
-            document.getElementById('acceptBtn').innerText = "Read My Surprise Note 💌";
-
+btnArea.style.height = 'auto';
+document.getElementById('acceptBtn').innerText = "Read My Surprise Note 💌";
 if (openCount >= 2) {
 document.getElementById('reopenPhotoBox').style.display = 'block';
 document.getElementById('popupTitle').innerText = "Hehe, You Re-Opened It! 🥰💜";
@@ -656,10 +656,11 @@ document.body.appendChild(item);
 setTimeout(() => item.remove(), 5000);
 }, i * 80);
 }
-}
-function closePopup() {
-document.getElementById('popupOverlay').style.display = 'none';
-}
+ 
+    
+         
+          
+  
 </script>
 </body>
 </html>
