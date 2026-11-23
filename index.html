@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>I'm So Sorry 💜</title>
-    <link href="https://googleapis.com" rel="stylesheet">
-
     <style>
         :root {
             --bg-gradient: linear-gradient(135deg, #f3e7fa 0%, #e1bee7 50%, #ce93d8 100%);
@@ -23,7 +21,7 @@
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background: var(--bg-gradient);
             color: var(--text-dark);
             min-height: 100vh;
@@ -73,7 +71,7 @@
         }
 
         h1 {
-            font-family: 'Dancing Script', cursive;
+            font-family: "Brush Script MT", "Snell Roundhand", "Apple Chancery", Georgia, cursive;
             font-size: 2.8rem;
             color: var(--primary-violet);
             margin-bottom: 15px;
@@ -109,8 +107,8 @@
         }
 
         .photo-caption {
-            font-family: 'Dancing Script', cursive;
-            font-size: 1.1rem;
+            font-family: "Brush Script MT", "Snell Roundhand", "Apple Chancery", Georgia, cursive;
+            font-size: 1.25rem;
             color: var(--primary-violet);
             margin-top: 6px;
         }
@@ -135,8 +133,8 @@
         }
 
         .letter-sign {
-            font-family: 'Dancing Script', cursive;
-            font-size: 1.6rem;
+            font-family: "Brush Script MT", "Snell Roundhand", "Apple Chancery", Georgia, cursive;
+            font-size: 1.8rem;
             color: var(--primary-violet);
             text-align: right;
             margin-top: 15px;
@@ -147,23 +145,27 @@
             font-weight: 600;
             font-size: 1.15rem;
             color: var(--primary-violet);
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .btn-group {
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             gap: 20px;
-            min-height: 60px;
+            width: 100%;
+            height: 180px;
+            padding-top: 10px;
             position: relative;
+            overflow: hidden;
+            border-radius: 15px;
         }
 
         button {
-            padding: 12px 28px;
+            padding: 12px 26px;
             font-size: 1rem;
             font-weight: 600;
-            font-family: 'Poppins', sans-serif;
+            font-family: inherit;
             border: none;
             border-radius: 50px;
             cursor: pointer;
@@ -188,13 +190,13 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             position: relative;
             z-index: 3;
-            transition: all 0.25s ease-out;
+            transition: left 0.22s ease-out, top 0.22s ease-out;
         }
 
         /* Acceptance Celebration Message */
         #celebration {
             display: none;
-            margin-top: 25px;
+            margin-top: 10px;
             padding: 20px;
             background: linear-gradient(135deg, #f3e5f5, #fce4ec);
             border-radius: 15px;
@@ -203,8 +205,8 @@
         }
 
         #celebration h2 {
-            font-family: 'Dancing Script', cursive;
-            font-size: 2.2rem;
+            font-family: "Brush Script MT", "Snell Roundhand", "Apple Chancery", Georgia, cursive;
+            font-size: 2.3rem;
             color: var(--primary-violet);
             margin-bottom: 8px;
         }
@@ -244,18 +246,18 @@
         <h1>Please Accept My Apology...</h1>
         <p>I made this little space just for you, surrounded by violet lilies.</p>
 
-        <!-- PHOTO GALLERY: Replace the src="photo1.jpg" with your actual uploaded file names -->
+        <!-- PHOTO GALLERY -->
         <div class="gallery">
             <div class="photo-frame">
-                <img src="photo1.jpg" alt="Her Photo 1" onerror="this.src='https://unsplash.com'">
+                <img src="img1.jpg" alt="Her Photo 1">
                 <div class="photo-caption">My favorite smile 💜</div>
             </div>
             <div class="photo-frame">
-                <img src="photo2.jpg" alt="Her Photo 2" onerror="this.src='https://unsplash.com'">
+                <img src="img2.jpg" alt="Her Photo 2">
                 <div class="photo-caption">Always on my mind 🪻</div>
             </div>
             <div class="photo-frame">
-                <img src="photo3.jpg" alt="Her Photo 3" onerror="this.src='https://unsplash.com'">
+                <img src="img3.jpg" alt="Her Photo 3">
                 <div class="photo-caption">My everything ✨</div>
             </div>
         </div>
@@ -277,7 +279,7 @@
 
         <!-- INTERACTIVE BUTTONS -->
         <div class="question">Do you accept my apology?</div>
-        <div class="btn-group">
+        <div class="btn-group" id="btnArea">
             <button id="acceptBtn" onclick="acceptApology()">Yes, I forgive you 💜</button>
             <button id="rejectBtn">No 😢</button>
         </div>
@@ -291,6 +293,7 @@
 
     <script>
         const rejectBtn = document.getElementById('rejectBtn');
+        const btnArea = document.getElementById('btnArea');
         const messages = [
             "Are you sure? 🥺",
             "Please don't click me! 💜",
@@ -301,17 +304,16 @@
         ];
 
         function dodgeButton() {
-// Switch to fixed positioning so it can move anywhere on the screen safely
-rejectBtn.style.position = 'fixed';
-// Calculate safe boundaries inside the viewport
-const padding = 20;
-const maxX = window.innerWidth - rejectBtn.offsetWidth - padding;
-const maxY = window.innerHeight - rejectBtn.offsetHeight - padding;
+            // Keep button trapped inside the .btn-group box below the letter
+            rejectBtn.style.position = 'absolute';
+
+const padding = 10;
+const maxX = btnArea.clientWidth - rejectBtn.offsetWidth - padding;
+const maxY = btnArea.clientHeight - rejectBtn.offsetHeight - padding;
 const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
 const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
 rejectBtn.style.left = randomX + 'px';
 rejectBtn.style.top = randomY + 'px';
-// Change button text playfully
 const randomText = messages[Math.floor(Math.random() * messages.length)];
 rejectBtn.innerText = randomText;
 }
@@ -327,8 +329,8 @@ rejectBtn.addEventListener('click', dodgeButton);
 function acceptApology() {
 document.getElementById('celebration').style.display = 'block';
 rejectBtn.style.display = 'none';
+btnArea.style.height = 'auto';
 document.getElementById('acceptBtn').innerText = "Yay! Love you! 💜";
-// Drop violet lilies, tulips, and hearts
 const emojis = ['🪻', '💜', '🌷', '🥰', '✨', '🌸'];
 for (let i = 0; i < 45; i++) {
 setTimeout(() => {
@@ -342,6 +344,6 @@ setTimeout(() => item.remove(), 5000);
 }, i * 80);
 }
 }
-        </script>
-    </body>
-    </html>
+</script>
+</body>
+</html>
