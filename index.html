@@ -237,6 +237,7 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
+            overflow-y: auto;
             animation: fadeIn 0.35s ease forwards;
         }
 
@@ -244,8 +245,10 @@
             background: linear-gradient(145deg, #ffffff 0%, #f8eafc 100%);
             max-width: 520px;
             width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
             border-radius: 28px;
-            padding: 38px 28px;
+            padding: 32px 24px;
             text-align: center;
             border: 3px solid #ce93d8;
             box-shadow: 0 20px 50px rgba(74, 20, 140, 0.45);
@@ -254,25 +257,97 @@
         }
 
         .popup-top-icons {
-            font-size: 2.5rem;
-            margin-bottom: 12px;
+            font-size: 2.3rem;
+            margin-bottom: 8px;
         }
 
         .popup-page h2 {
             font-family: "Brush Script MT", "Snell Roundhand", "Apple Chancery", Georgia, cursive;
-            font-size: 2.6rem;
+            font-size: 2.5rem;
             color: var(--primary-violet);
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             line-height: 1.2;
+        }
+
+        #reopenPhotoBox {
+            display: none;
+            margin: 10px auto 14px auto;
+        }
+
+        .slideshow-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            margin-bottom: 10px;
+        }
+
+        .slide-nav-btn {
+            background: #f3e5f5;
+            color: var(--primary-violet);
+            width: 38px;
+            height: 38px;
+            padding: 0;
+            border-radius: 50%;
+            font-size: 1.1rem;
+            box-shadow: 0 3px 10px rgba(106, 27, 154, 0.18);
+        }
+
+        .slide-nav-btn:hover {
+            background: #e1bee7;
+            transform: scale(1.1);
+        }
+
+        .my-popup-photo {
+            width: 155px;
+            height: 155px;
+            object-fit: cover;
+            border-radius: 20px;
+            border: 4px solid #ba68c8;
+            box-shadow: 0 8px 20px rgba(106, 27, 154, 0.25);
+            display: block;
+            background: #fff;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+
+        .slide-dots {
+            display: flex;
+            justify-content: center;
+            gap: 7px;
+            margin-bottom: 10px;
+        }
+
+        .slide-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #e1bee7;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+
+        .slide-dot.active {
+            background: var(--accent-violet);
+            transform: scale(1.25);
+        }
+
+        .playful-caption {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--accent-violet);
+            background: #f3e5f5;
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
         }
 
         .popup-message {
             background: #fff;
             border-radius: 18px;
-            padding: 20px;
-            margin: 18px 0;
+            padding: 18px;
+            margin: 14px 0;
             border: 1.5px dashed #ba68c8;
-            font-size: 1rem;
+            font-size: 0.98rem;
             line-height: 1.65;
             color: var(--text-dark);
         }
@@ -289,11 +364,11 @@
             font-family: "Brush Script MT", "Snell Roundhand", "Apple Chancery", Georgia, cursive;
             font-size: 1.9rem;
             color: var(--accent-violet);
-            margin-top: 12px;
+            margin-top: 10px;
         }
 
         .close-popup-btn {
-            margin-top: 18px;
+            margin-top: 16px;
             background: linear-gradient(45deg, #8e24aa, #ba68c8);
             color: #fff;
             padding: 10px 24px;
@@ -415,7 +490,18 @@
                 <span class="blush-emoji">😊</span>
                 😘🌷
             </div>
-            <h2>Thank You for Forgiving Me, My Love! 💜</h2>
+            <h2 id="popupTitle">Thank You for Forgiving Me, My Love! 💜</h2>
+
+            <div id="reopenPhotoBox">
+                <div class="slideshow-wrapper">
+                    <button type="button" class="slide-nav-btn" onclick="changeSlide(-1)">❮</button>
+                    <img id="mySlideImg" src="my-pic1.jpg" alt="Dhaniel" class="my-popup-photo">
+                    <button type="button" class="slide-nav-btn" onclick="changeSlide(1)">❯</button>
+                </div>
+                <div class="slide-dots" id="slideDots"></div>
+                <div class="playful-caption" id="playfulText"></div>
+            </div>
+
             <div class="popup-message">
                 <p>You just made me the happiest person in the world! 🥰💋</p>
                 <p>
@@ -440,6 +526,36 @@
             "Give me a chance! 😭",
             "No isn't an option! 🌷"
         ];
+
+        const mySlides = [
+            { src: "my-pic1.jpg", caption: "Miss mo na agad handsome lakay mo? 😋😘" },
+            { src: "my-pic2.jpg", caption: "Caught you peeking again! 👀💜" },
+            { src: "my-pic3.jpg", caption: "Bonus pogi pics unlocked just for my baby! 😎💋" },
+            { src: "my-pic4.jpg", caption: "Sending virtual hugs and 1,000 kisses! 😘🌷" }
+        ];
+
+        let openCount = 0;
+        let currentSlide = 0;
+
+        function renderSlide(index) {
+            currentSlide = (index + mySlides.length) % mySlides.length;
+            const slideImg = document.getElementById('mySlideImg');
+            slideImg.src = mySlides[currentSlide].src;
+            document.getElementById('playfulText').innerText = mySlides[currentSlide].caption;
+
+            const dotsContainer = document.getElementById('slideDots');
+            dotsContainer.innerHTML = '';
+            mySlides.forEach((_, idx) => {
+                const dot = document.createElement('span');
+                dot.className = 'slide-dot' + (idx === currentSlide ? ' active' : '');
+                dot.onclick = () => renderSlide(idx);
+                dotsContainer.appendChild(dot);
+            });
+        }
+
+        function changeSlide(step) {
+            renderSlide(currentSlide + step);
+        }
 
         function dodgeButton() {
             rejectBtn.style.position = 'absolute';
@@ -467,10 +583,17 @@
         rejectBtn.addEventListener('click', dodgeButton);
 
         function acceptApology() {
+            openCount++;
             document.getElementById('popupOverlay').style.display = 'flex';
             rejectBtn.style.display = 'none';
             btnArea.style.height = 'auto';
             document.getElementById('acceptBtn').innerText = "Read My Surprise Note 💌";
+
+            if (openCount >= 2) {
+                document.getElementById('reopenPhotoBox').style.display = 'block';
+                document.getElementById('popupTitle').innerText = "Hehe, You Re-Opened It! 🥰💜";
+                renderSlide(openCount - 2);
+            }
 
             const items = [lilySvg, '💜', '🌷', '😘', '💋', '🥰', lilySvg];
             for (let i = 0; i < 55; i++) {
@@ -478,18 +601,16 @@
                     const item = document.createElement('div');
                     item.classList.add('falling-item');
                     item.innerHTML = items[Math.floor(Math.random() * items.length)];
-                    item.style.left = Math.random() * 100 + 'vw';
-                    item.style.animationDuration = (Math.random() * 2 + 2.5) + 's';
-                    document.body.appendChild(item);
-
-                    setTimeout(() => item.remove(), 5000);
-                }, i * 75);
-            }
-        }
-
-        function closePopup() {
-            document.getElementById('popupOverlay').style.display = 'none';
-        }
-    </script>
+item.style.left = Math.random() * 100 + 'vw';
+item.style.animationDuration = (Math.random() * 2 + 2.5) + 's';
+document.body.appendChild(item);
+setTimeout(() => item.remove(), 5000);
+}, i * 75);
+}
+}
+function closePopup() {
+document.getElementById('popupOverlay').style.display = 'none';
+}
+                </script>
 </body>
 </html>
