@@ -530,18 +530,13 @@
             </div>
             <h2 id="popupTitle">Thank You for Forgiving Me, My Love! 💜</h2>
 
-            <div id="reopenPhotoBox">
-                <div class="slideshow-wrapper" id="swipeArea">
-                    <button type="button" class="slide-nav-btn" onclick="changeSlide(-1)">❮</button>
-                    <img id="mySlideImg" src="my-pic1.jpg" alt="Dhaniel" class="my-popup-photo">
-                    <button type="button" class="slide-nav-btn" onclick="changeSlide(1)">❯</button>
-                </div>
-                <div class="swipe-hint">← Swipe or tap arrows for more →</div>
-                <div class="slide-dots" id="slideDots"></div>
+            <!-- Single Photo + Playful Caption (Appears on 2nd click onward) -->
+            <div id="reopenPhotoBox" style="display: none; margin: 10px auto 14px auto;">
+                <img id="mySlideImg" src="my-pic1.jpg" alt="Dhaniel" class="my-popup-photo" style="margin: 0 auto 10px auto;">
                 <div class="playful-caption" id="playfulText"></div>
             </div>
 
-                 <div class="popup-message" id="popupMessageBox">
+            <div class="popup-message" id="popupMessageBox">
                 <p>You just made me the happiest person in the world! 🥰💋</p>
                 <p>
                     I promise to always listen, understand you better, and fill your days with the same warmth and beauty as violet lilies and tulips. 🌷<svg class="violet-lily" viewBox="0 0 100 100"><use href="#violet-lily-icon"/></svg>
@@ -549,19 +544,17 @@
                 <p><strong>I love you so much! 😘💜</strong></p>
             </div>
             <div class="popup-sign">Always love you,<br>Dhaniel 💋</div>
-            <button class="close-popup-btn" onclick="closePopup()">Back to Photos 💜</button>
+            <button class="close-popup-btn">Back to Photos 💜</button>
         </div>
     </div>
 
-       <script>
+
+          <script>
         document.addEventListener('DOMContentLoaded', function () {
             const rejectBtn = document.getElementById('rejectBtn');
             const acceptBtn = document.getElementById('acceptBtn');
             const closeBtn = document.querySelector('.close-popup-btn');
-            const prevSlideBtn = document.querySelector('.slide-nav-btn:first-of-type');
-            const nextSlideBtn = document.querySelector('.slide-nav-btn:last-of-type');
             const btnArea = document.getElementById('btnArea');
-            const swipeArea = document.getElementById('swipeArea');
 
             const lilySvg = '<svg class="violet-lily" viewBox="0 0 100 100"><use href="#violet-lily-icon"/></svg>';
             const messages = [
@@ -573,71 +566,39 @@
                 "No isn't an option! 🌷"
             ];
 
-            const mySlides = [
-                { src: "my-pic1.jpg", caption: "Miss mo na agad handsome lakay mo? 😋😘" },
-                { src: "my-pic2.jpg", caption: "Caught you peeking again! 👀💜" },
-                { src: "my-pic3.jpg", caption: "Bonus pogi pics unlocked just for my baby! 😎💋" },
-                { src: "my-pic4.jpg", caption: "Sending virtual hugs and 1,000 kisses! 😘🌷" }
+            // Each entry pairs 1 photo + 1 photo caption + 1 surprise note
+            const surpriseItems = [
+                {
+                    src: "my-pic1.jpg",
+                    caption: "Miss mo na agad handsome lakay mo? 😋😘",
+                    note: "<p>Huli ka! 👀💜 Clicking again because you can't get enough of your handsome lakay, 'no? 😋</p><p>Honestly though, every time you smile, my whole day gets 100x better.</p><p><strong>Miss na miss kita agad! 😘🌷</strong></p>"
+                },
+                {
+                    src: "my-pic2.jpg",
+                    caption: "Caught you peeking again! 👀💜",
+                    note: "<p>🎟️ <strong>VIP Cravings Pass Unlocked!</strong> 🍔🧋</p><p>Screenshot this note and send it to me right now—your lakay owes you your favorite food or milk tea/coffee date, no questions asked!</p><p><strong>Anything for my baby! 🥰💋</strong></p>"
+                },
+                {
+                    src: "my-pic3.jpg",
+                    caption: "Bonus pogi pic unlocked just for my baby! 😎💋",
+                    note: "<p>Reminder of the day: Out of everyone in the world, you will always be my favorite person to annoy, hug, and love. 🥺💜</p><p>Thank you for always being so patient with me.</p><p><strong>Mahal na mahal kita! 🌷" + lilySvg + "</strong></p>"
+                },
+                {
+                    src: "my-pic4.jpg",
+                    caption: "Sending virtual hugs and 1,000 kisses! 😘🌷",
+                    note: "<p>Warning: Keep clicking this button and you owe me 10 kisses plus one long hug the next time we see each other! 😘💋</p><p>No take-backs, rules are rules! 😎💜</p><p><strong>Umwahhhhhhh! 🥰🌷</strong></p>"
+                }
             ];
 
-            const surpriseNotes = [
-                "<p>You just made me the happiest person in the world! 🥰💋</p><p>I promise to always listen, understand you better, and fill your days with the same warmth and beauty as violet lilies and tulips. 🌷" + lilySvg + "</p><p><strong>I love you so much! 😘💜</strong></p>",
-                "<p>Secret Note #1: Even on my busiest days, you are always my favorite thought. 🥰💜</p><p>Thank you for being my peace, my best friend, and my safe place.</p><p><strong>I love you endlessly, baby! 😘🌷</strong></p>",
-                "<p>Secret Note #2: If I could give you one thing in life, I would give you the ability to see yourself through my eyes. 👀✨</p><p>Then you would realize how truly special and irreplaceable you are to me.</p><p><strong>Forever yours! 💋💜</strong></p>",
-                "<p>Warning: Keep clicking this button and you owe me 10 kisses plus one long hug the next time we see each other! 😘💋</p><p>No take-backs, rules are rules! 😎💜</p><p><strong>Umwahhhhhhh! 🥰🌷</strong></p>",
-                "<p>Secret Note #4: No matter what happens, I will always choose you—today, tomorrow, and every day after. 💜" + lilySvg + "</p><p>Keep smiling that pretty smile for me, okay? 😊</p><p><strong>Mahal na mahal kita! 💋</strong></p>"
+            // Playful button texts for the 3rd click onward
+            const nextBtnPrompts = [
+                "Wanna read another note? 😜💌",
+                "Wanna read another note? 🥰✨",
+                "Wanna read another note? 😋💜",
+                "Wanna read another note? 😘🌷"
             ];
-
 
             let openCount = 0;
-            let currentSlide = 0;
-            let touchStartX = 0;
-
-            function renderSlide(index) {
-                currentSlide = (index + mySlides.length) % mySlides.length;
-                const slideImg = document.getElementById('mySlideImg');
-                slideImg.src = mySlides[currentSlide].src;
-                document.getElementById('playfulText').innerText = mySlides[currentSlide].caption;
-
-                const dotsContainer = document.getElementById('slideDots');
-                dotsContainer.innerHTML = '';
-                mySlides.forEach(function (_, idx) {
-                    const dot = document.createElement('span');
-                    dot.className = 'slide-dot' + (idx === currentSlide ? ' active' : '');
-                    dot.addEventListener('click', function () {
-                        renderSlide(idx);
-                    });
-                    dotsContainer.appendChild(dot);
-                });
-            }
-
-            function changeSlide(step) {
-                renderSlide(currentSlide + step);
-            }
-
-            if (prevSlideBtn) {
-                prevSlideBtn.addEventListener('click', function () {
-                    changeSlide(-1);
-                });
-            }
-
-            if (nextSlideBtn) {
-                nextSlideBtn.addEventListener('click', function () {
-                    changeSlide(1);
-                });
-            }
-
-            if (swipeArea) {
-                swipeArea.addEventListener('touchstart', function (e) {
-                    touchStartX = e.changedTouches[0].clientX;
-                }, { passive: true });
-
-                swipeArea.addEventListener('touchend', function (e) {
-                    const touchEndX = e.changedTouches[0].clientX;
-                    if (touchStartX - touchEndX > 35) changeSlide(1);
-                    if (touchEndX - touchStartX > 35) changeSlide(-1);
-                }, { passive: true });
-            }
 
             function dodgeButton(e) {
                 if (e && e.cancelable) {
@@ -675,21 +636,30 @@
                 document.getElementById('apologyQuestion').style.display = 'none';
                 rejectBtn.style.display = 'none';
                 btnArea.style.height = 'auto';
-                acceptBtn.innerText = "Read My Surprise Note 💌";
 
                 const messageBox = document.getElementById('popupMessageBox');
+                const photoBox = document.getElementById('reopenPhotoBox');
 
                 if (openCount === 1) {
-                    messageBox.innerHTML = surpriseNotes[0];
+                    // 1st click: Apology accepted message, next button says "Read My Surprise Note 💌"
+                    photoBox.style.display = 'none';
+                    acceptBtn.innerText = "Read My Surprise Note 💌";
                 } else {
-                    document.getElementById('reopenPhotoBox').style.display = 'block';
-                    document.getElementById('popupTitle').innerText = "Hehe, You Re-Opened It! 🥰💜";
-                    renderSlide(openCount - 2);
+                    // 2nd click onward: Show 1 picture + 1 matching note, button says "Wanna read another note? 😜💌"
+                    const itemIndex = (openCount - 2) % surpriseItems.length;
+                    const currentItem = surpriseItems[itemIndex];
 
-                    const noteIndex = ((openCount - 2) % (surpriseNotes.length - 1)) + 1;
-                    messageBox.innerHTML = surpriseNotes[noteIndex];
+                    photoBox.style.display = 'block';
+                    document.getElementById('popupTitle').innerText = "Surprise Note #" + (itemIndex + 1) + " For You! 🥰💜";
+                    document.getElementById('mySlideImg').src = currentItem.src;
+                    document.getElementById('playfulText').innerText = currentItem.caption;
+                    messageBox.innerHTML = currentItem.note;
+
+                    const promptIndex = (openCount - 2) % nextBtnPrompts.length;
+                    acceptBtn.innerText = nextBtnPrompts[promptIndex];
                 }
 
+                // Falling violet lilies, tulips, and hearts
                 const items = [lilySvg, '💜', '🌷', '😘', '💋', '🥰', lilySvg];
                 for (let i = 0; i < 45; i++) {
                     setTimeout(function () {
